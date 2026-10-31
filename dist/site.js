@@ -149,10 +149,36 @@
   if ('IntersectionObserver' in window) {
     revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      animate(entry.target, [{ opacity: .55, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 450, easing: 'ease-out' });
+      const delay = entry.target.matches('.news-grid>article') && entry.target.previousElementSibling ? 90 : 0;
+      animate(entry.target, [{ opacity: .68, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 680, delay, easing: 'cubic-bezier(.22,.68,.2,1)' });
       revealObserver.unobserve(entry.target);
     }), { threshold: .12 });
-    document.querySelectorAll('.cover-stage,.split-heading,.portrait,.about blockquote,.chapter>div,.chapter form,.audio-icon,.news-grid,.closing h2').forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.cover-stage,.split-heading,.portrait,.about blockquote,.chapter>div,.chapter form,.audio-copy h2,.audio-visual,.news-grid>article,.closing h2').forEach(el => revealObserver.observe(el));
+  }
+
+  // Decorative waveform: no audio is played here. It rests outside the viewport.
+  const soundscape = document.querySelector('.audio-visual');
+  const waveToggle = document.querySelector('.wave-toggle');
+  let audioVisible = false;
+  let userPausedWave = false;
+  function updateWave() {
+    if (!soundscape || !waveToggle) return;
+    const enabled = 'IntersectionObserver' in window && !motion.matches;
+    const running = enabled && audioVisible && !document.hidden && !userPausedWave;
+    soundscape.classList.toggle('wave-live', running);
+    waveToggle.hidden = !enabled;
+    waveToggle.querySelector('.wave-control-label').textContent = userPausedWave ? 'Resume motion' : 'Pause motion';
+    waveToggle.querySelector('.wave-control-icon').textContent = userPausedWave ? '↻' : 'Ⅱ';
+    waveToggle.setAttribute('aria-label', userPausedWave ? 'Resume waveform animation' : 'Pause waveform animation');
+  }
+  if (soundscape && waveToggle && 'IntersectionObserver' in window) {
+    const audioObserver = new IntersectionObserver(entries => {
+      audioVisible = entries[0].isIntersecting;
+      updateWave();
+    }, { threshold: .12 });
+    audioObserver.observe(soundscape);
+    waveToggle.addEventListener('click', () => { userPausedWave = !userPausedWave; updateWave(); });
+    updateWave();
   }
 
   // Hidden sticky actions are removed from focus order as well as from view.
@@ -180,11 +206,12 @@
   }
 
   function updateMotion() {
+    updateWave();
     if (!motion.matches) return;
     activeAnimations.forEach(animation => animation.cancel());
     resetBook();
   }
   if (motion.addEventListener) motion.addEventListener('change', updateMotion);
   else if (motion.addListener) motion.addListener(updateMotion);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) resetBook(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) resetBook(); updateWave(); });
 })();
