@@ -1,0 +1,78 @@
+/* Landingfolio audit: readable scale, consistent action tiers, phone layout. */
+:root{--text-xs:12px;--text-sm:14px;--text-base:16px;--text-lg:20px;--space-1:8px;--space-2:16px;--space-3:24px;--space-4:32px;--space-5:48px;--space-6:64px;--space-7:96px;--action:#a25e3f;--action-hover:#84482f;--dark-muted:#d0d7ca;--surface:#ece8df;--surface-dark:#2d3630;--border-dark:#535b50}
+body{font-size:var(--text-base);line-height:1.65}
+.section{padding-top:var(--space-7);padding-bottom:var(--space-7)}
+.eyebrow,.copper,.hero .eyebrow,.chapter-meta,.hero-note,.theme-grid article span,.cover-stage span,.portrait span,.book-label span,.edition,.brand span,.about cite{font-size:var(--text-xs);letter-spacing:.1em}
+nav,.text-link,.button,.small-links,.socials,summary,.ribbon{font-size:var(--text-sm)}
+.intro,.about p,.theme-grid p,.split-heading p,.audio p,.trailer p,.coming p,.contact p,details p,details ul,.chapter form p{font-size:var(--text-base);line-height:1.65}
+.chapter label,.chapter input{font-size:var(--text-sm)}
+.chapter small,.form-fallback,footer p,footer>a:last-child,.section-heading>span{font-size:var(--text-xs)}
+.chapter p,.chapter small{color:var(--dark-muted)}
+.chapter .eyebrow{color:#e1c694}
+.button,.chapter button{min-height:48px;line-height:1.3;border-radius:0;padding:var(--space-2) var(--space-3);background:var(--action);border-color:var(--action);color:#fff}
+.button:hover,.chapter button:hover{background:var(--action-hover);border-color:var(--action-hover);color:#fff}
+.button.secondary{color:var(--ink);background:transparent;border-color:var(--ink)}
+.button.secondary:hover{color:var(--paper);background:var(--ink)}
+.nav-cta{border-color:var(--action);color:var(--action);min-height:48px;display:inline-flex;align-items:center}
+.nav-cta:hover{background:var(--action);color:#fff}
+.chapter input{min-height:48px;line-height:1.3;padding:var(--space-2);margin-bottom:var(--space-2)}
+.chapter form{padding:var(--space-4);background:var(--surface-dark);border-color:var(--border-dark)}
+.chapter label{margin-bottom:var(--space-1)}
+.chapter form h3{margin-bottom:var(--space-2)}
+.actions{gap:var(--space-3);margin-top:var(--space-4);margin-bottom:var(--space-4)}
+.hero{min-height:640px;padding-top:var(--space-5);padding-bottom:var(--space-5)}
+.hero h1{font-size:clamp(60px,6.4vw,88px);letter-spacing:-.035em}
+.hero-art{min-height:500px;align-self:center}
+.hero .intro{max-width:46ch}
+.portrait img{aspect-ratio:4/5;object-fit:cover;object-position:center 32%;max-height:none}
+.theme-grid{gap:var(--space-4);margin-top:var(--space-4)}
+.theme-grid article{padding-top:var(--space-3)}
+.theme-grid h3{margin-top:var(--space-3);margin-bottom:var(--space-2)}
+.small-links{flex-wrap:wrap;gap:var(--space-3)}
+.small-links a,.text-link,.socials a{min-height:44px;display:inline-flex;align-items:center}
+.email{max-width:100%}
+.synopsis ul{padding:0;list-style:none}
+.synopsis li{position:relative;padding:var(--space-1) 0 var(--space-1) 24px}
+.synopsis li:before{content:'✓';position:absolute;left:0;color:var(--copper)}
+.coming{border:0;padding:var(--space-4)}
+.coming .text-link{margin-top:auto}
+@media(min-width:721px) and (max-width:1100px){header{flex-wrap:wrap;gap:var(--space-2)}nav{gap:var(--space-3);flex-wrap:wrap}.hero h1{font-size:60px}.hero .eyebrow{font-size:var(--text-xs)}.hero-book{width:220px}.halo{width:270px}.hero-art{min-height:470px}.hero .actions{gap:var(--space-2)}.hero .button{gap:var(--space-2)}.book-grid,.about{gap:6%}.chapter{gap:var(--space-4)}.audio .button{margin-left:0}}
+@media(max-width:720px){
+ .section{padding:var(--space-6) 24px}
+ .announcement{font-size:10px;line-height:1.5;padding:var(--space-1) 16px}.announcement a{display:inline-block}
+ header{padding:var(--space-2) 24px;gap:8px;flex-wrap:nowrap}
+ .brand{font-size:16px;letter-spacing:1px}.brand span{font-size:10px;letter-spacing:.09em}
+ #menu{min-height:44px;min-width:64px;font-size:14px;padding:8px}
+ nav{font-size:16px;padding:var(--space-3);gap:var(--space-1)}nav a{min-height:44px;display:flex;align-items:center}
+ .hero{padding:var(--space-4) 24px;gap:var(--space-3);min-height:0}
+ .hero h1{font-size:clamp(40px,12.3vw,48px);letter-spacing:-.035em;line-height:1.12;margin-bottom:var(--space-3)}
+ .hero .eyebrow{font-size:11px;letter-spacing:.09em;margin-bottom:var(--space-2)}
+ .hero .line{width:16px;margin-right:4px}
+ .hero .intro{font-size:16px;line-height:1.65;margin-bottom:0}
+ .hero .intro br{display:none}
+ .actions{display:flex;flex-direction:column;align-items:stretch;gap:var(--space-1);margin:var(--space-3) 0 var(--space-2)}
+ .actions .button{width:100%;justify-content:space-between}
+ .actions .text-link{align-self:flex-start}
+ .hero-note{font-size:11px;line-height:1.6;margin-bottom:0;max-width:30ch}
+ .hero-art{min-height:350px;width:100%;margin:0;padding:24px 0 32px}
+ .hero-book{width:170px;transform:rotate(-5deg)}
+ .halo{width:240px;height:280px;top:12px}
+ .vertical{display:none}
+ .book-label{bottom:0;right:0;padding:8px 16px}.book-label span{font-size:10px}.book-label p{font-size:20px;margin:4px 0}
+ .edition{font-size:10px;left:0;bottom:8px;max-width:12ch;line-height:1.5}
+ .ribbon{font-size:12px;gap:8px;padding:16px 24px;line-height:1.5}.ribbon i{font-size:14px}
+ .book-grid h2,h2{font-size:36px;letter-spacing:-.025em}
+ .cover-stage{padding:32px 24px 24px}.cover-stage img{width:190px}.cover-stage span{margin-top:24px}
+ .retailers{gap:8px;align-items:stretch;flex-direction:column}.retailers .button{width:100%}.retailers .text-link{align-self:flex-start}
+ .small-links{gap:8px 24px;font-size:14px}
+ .theme-grid{gap:var(--space-3)}.theme-grid h3{font-size:26px;margin:16px 0 8px}.theme-grid p{margin:0}.theme-grid article{padding-top:16px}
+ .chapter form{padding:var(--space-3)}.chapter h3{font-size:26px}.chapter-meta{font-size:12px;line-height:1.6;margin-top:24px}
+ .chapter input{font-size:16px}.chapter small{font-size:12px}.form-fallback{font-size:12px;line-height:1.6;margin-top:16px}
+ .portrait img{aspect-ratio:4/5}.portrait span{font-size:12px;padding:16px}
+ .about blockquote{font-size:26px}.about cite{font-size:12px}
+ .audio{display:block}.audio-icon{display:none}.audio h2{font-size:36px}.audio .button{margin-top:24px;width:100%;white-space:normal}
+ .news-grid{gap:32px}.video-link{height:220px}.coming{min-height:0;padding:24px}.coming .quill{font-size:48px;margin:0 0 16px}.coming h3{font-size:32px}
+ .faq{gap:24px}.faq h2{margin-bottom:0}.faq summary{font-size:16px;min-height:44px;line-height:1.5}details{padding:16px 0}
+ .contact h2{font-size:40px}.contact .eyebrow{font-size:11px}.contact .email{font-size:16px;overflow-wrap:anywhere;text-align:left}.socials{gap:8px 24px;font-size:14px;margin-top:24px}
+ footer{padding:32px 24px}footer p,footer>a:last-child{font-size:12px}footer>a:last-child{display:inline-flex;min-height:44px;align-items:center}
+}
