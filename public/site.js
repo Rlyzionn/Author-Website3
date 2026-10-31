@@ -4,7 +4,7 @@
   const finePointer = matchMedia('(pointer: fine)');
   const activeAnimations = new Set();
   function animate(element, frames, options) {
-    if (motion.matches || !element || !element.animate) return;
+    if (motion.matches || document.documentElement.classList.contains('motion-paused') || !element || !element.animate) return;
     const animation = element.animate(frames, options);
     activeAnimations.add(animation);
     animation.addEventListener('finish', () => activeAnimations.delete(animation), { once: true });
@@ -126,24 +126,7 @@
   document.querySelectorAll('#hero-title>span').forEach((line, i) => {
     animate(line, [{ opacity: .4, transform: 'translateY(18px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 600, delay: i * 70, easing: 'cubic-bezier(.2,.7,.2,1)' });
   });
-  const book = document.querySelector('.book-object');
-  const art = document.querySelector('.hero-art');
-  const baseTransform = getComputedStyle(book).transform;
-  animate(book, [{ opacity: .6, transform: `translateY(20px) ${baseTransform}` }, { opacity: 1, transform: `translateY(0) ${baseTransform}` }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' });
-  let artRect, pointerFrame = 0, pointerX = 0, pointerY = 0;
-  art.addEventListener('pointerenter', () => { artRect = art.getBoundingClientRect(); });
-  art.addEventListener('pointermove', event => {
-    if (motion.matches || !finePointer.matches || !artRect) return;
-    pointerX = (event.clientX - artRect.left) / artRect.width - .5;
-    pointerY = (event.clientY - artRect.top) / artRect.height - .5;
-    if (pointerFrame) return;
-    pointerFrame = requestAnimationFrame(() => {
-      book.style.transform = `rotate(${-9 + pointerX * 4}deg) rotateY(${-13 + pointerX * 10}deg) rotateX(${-pointerY * 5}deg)`;
-      pointerFrame = 0;
-    });
-  });
-  function resetBook() { cancelAnimationFrame(pointerFrame); pointerFrame = 0; book.style.transform = ''; artRect = null; }
-  art.addEventListener('pointerleave', resetBook);
+  function resetBook() {}
 
   let revealObserver;
   if ('IntersectionObserver' in window) {
@@ -164,7 +147,7 @@
   function updateWave() {
     if (!soundscape || !waveToggle) return;
     const enabled = 'IntersectionObserver' in window && !motion.matches;
-    const running = enabled && audioVisible && !document.hidden && !userPausedWave;
+    const running = enabled && !document.documentElement.classList.contains('motion-paused') && audioVisible && !document.hidden && !userPausedWave;
     soundscape.classList.toggle('wave-live', running);
     waveToggle.hidden = !enabled;
     waveToggle.querySelector('.wave-control-label').textContent = userPausedWave ? 'Resume motion' : 'Pause motion';
@@ -211,6 +194,10 @@
     activeAnimations.forEach(animation => animation.cancel());
     resetBook();
   }
+  document.addEventListener('cinematicmotionchange', event => {
+    if (event.detail.paused) activeAnimations.forEach(animation => animation.cancel());
+    updateWave();
+  });
   if (motion.addEventListener) motion.addEventListener('change', updateMotion);
   else if (motion.addListener) motion.addListener(updateMotion);
   document.addEventListener('visibilitychange', () => { if (document.hidden) resetBook(); updateWave(); });
