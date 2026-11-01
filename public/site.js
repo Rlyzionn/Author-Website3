@@ -37,9 +37,9 @@
   const tabs = [...tablist.querySelectorAll('button')];
   const panels = tabs.map((_, i) => document.getElementById(`theme-panel-${i}`));
   const invitations = [
-    'Looking for perspective? Begin by seeing beyond the headlines.',
-    'Curious about prophecy? Begin with the patterns in Scripture.',
-    'Seeking steadier faith? Begin with spiritual discernment.'
+    'Begin by examining the times through Scripture.',
+    'Begin with biblical patterns and the days of Noah.',
+    'Begin with discernment grounded in faith.'
   ];
   tablist.setAttribute('role', 'tablist');
   tablist.setAttribute('aria-orientation', 'vertical');

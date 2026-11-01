@@ -8,13 +8,14 @@
     const stage = story && story.querySelector('.story-stage');
     const bookDetail = document.querySelector('.book-reading');
     const audioScene = document.querySelector('.audio-visual');
+    const authorScene = document.querySelector('.author-scene');
     const beats = story ? [...story.querySelectorAll('.story-beat[data-beat]')] : [];
     const visuals = story ? [...story.querySelectorAll('.story-visual[data-beat]')] : [];
     const toggle = document.querySelector('.motion-toggle');
     const preference = typeof window.matchMedia === 'function'
       ? window.matchMedia('(prefers-reduced-motion: reduce)')
       : { matches: false };
-    const scenes = [portal, story, bookDetail, audioScene].filter(Boolean);
+    const scenes = [portal, story, bookDetail, audioScene, authorScene].filter(Boolean);
     const nearbyScenes = new Set();
     let userPaused = false;
     let sleeping = document.hidden;
@@ -85,8 +86,10 @@
       });
       setVariables(bookDetail, { '--detail-depth': '.5' });
       setVariables(audioScene, { '--audio-depth': '.5' });
+      setVariables(authorScene, { '--author-depth': '.5' });
       if (bookDetail) bookDetail.dataset.depthProgress = '.5';
       if (audioScene) audioScene.dataset.depthProgress = '.5';
+      if (authorScene) authorScene.dataset.depthProgress = '.5';
       const state = preference.matches ? 'reduced' : 'paused';
       scenes.forEach(scene => { scene.dataset.motionState = state; });
       setActiveBeat(selected);
@@ -107,6 +110,7 @@
       const storyRect = story && (force || nearbyScenes.has(story)) ? story.getBoundingClientRect() : null;
       const detailRect = bookDetail && (force || nearbyScenes.has(bookDetail)) ? bookDetail.getBoundingClientRect() : null;
       const audioRect = audioScene && (force || nearbyScenes.has(audioScene)) ? audioScene.getBoundingClientRect() : null;
+      const authorRect = authorScene && (force || nearbyScenes.has(authorScene)) ? authorScene.getBoundingClientRect() : null;
       const selected = storyRect ? findActiveBeat(viewportHeight) : null;
 
       if (portalRect) {
@@ -135,7 +139,7 @@
         setActiveBeat(selected);
         story.dataset.motionState = nearbyScenes.has(story) ? 'running' : 'idle';
       }
-      for (const [element, rect, property] of [[bookDetail, detailRect, '--detail-depth'], [audioScene, audioRect, '--audio-depth']]) {
+      for (const [element, rect, property] of [[bookDetail, detailRect, '--detail-depth'], [audioScene, audioRect, '--audio-depth'], [authorScene, authorRect, '--author-depth']]) {
         if (!rect) continue;
         const progress = ease(clamp((viewportHeight * .9 - rect.top) / (viewportHeight * .7 + Math.min(rect.height, viewportHeight) * .4)));
         setVariables(element, { [property]: progress.toFixed(4) });
