@@ -115,6 +115,26 @@
     partClouds(document.querySelector('.story-stage'), 1100);
     partClouds(document.querySelector('.author-scene'), 1000);
 
+    // A closing cloudbreak sits behind the contact copy, not across its links.
+    const closing = document.querySelector('.contact');
+    if (closing) {
+      const atmosphere = document.createElement('div');
+      atmosphere.className = 'closing-atmosphere';
+      atmosphere.setAttribute('aria-hidden', 'true');
+      atmosphere.append(decoration('closing-cloud closing-cloud-far'), decoration('closing-cloud closing-cloud-near'), decoration('closing-light'));
+      closing.prepend(atmosphere);
+      onEntrance(atmosphere, () => {
+        play(atmosphere.children[0], [
+          { opacity: .5, transform: 'translate3d(8%,0,0) scale(1.12)' },
+          { opacity: .3, transform: 'translate3d(-3%,0,0) scale(1.08)' }
+        ], { duration: 1600, easing: entranceEase });
+        play(atmosphere.children[1], [
+          { opacity: .45, transform: 'translate3d(-8%,8%,0) scale(1.1)' },
+          { opacity: .22, transform: 'translate3d(4%,0,0) scale(1.12)' }
+        ], { duration: 1800, easing: entranceEase });
+      });
+    }
+
     function lightPass(anchor, duration) {
       if (!anchor) return;
       anchor.classList.add('arrival-surface');

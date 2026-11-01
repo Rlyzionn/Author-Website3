@@ -1,5 +1,11 @@
 /* Decorative chapter entrances. The complete page is visible without this JS. */
-.arrival-surface{position:relative;isolation:isolate}
+.arrival-surface{isolation:isolate}
+/* Do not reset positioning: the book story relies on position:sticky. */
+.chapter.arrival-surface,.faq.arrival-surface,.contact.arrival-surface{position:relative}
+/* Keep the paper fan inside its card, clear of the section heading. */
+.book-reading .depth-page-fan{top:22px;right:24px;width:54px;height:76px}
+.book-reading>.eyebrow{min-height:64px;padding-right:80px;display:flex;align-items:center;margin-bottom:18px}
+@media(max-width:720px){.story-stage{background:linear-gradient(#07111e 0 94%,#07111e00 100%)}}
 .arrival-cloud{position:absolute;inset:-8% -12%;pointer-events:none;z-index:6;opacity:0;background:url('/assets/portal-atmosphere-900.webp') 46% 74%/cover;mask-image:radial-gradient(ellipse at 45% 50%,#000 15%,#000c 42%,transparent 72%);border-radius:45%;contain:paint}
 .arrival-cloud-right{background-position:84% 66%;transform:scaleX(-1)}
 .cinematic-hero>.arrival-cloud{inset:-5% -25%;height:115%;z-index:6;mask-image:radial-gradient(ellipse at 48% 50%,#000 15%,#000c 40%,transparent 69%)}
@@ -16,3 +22,12 @@
 .motion-paused .arrival-cloud,.motion-paused .arrival-glint{opacity:0!important}.motion-paused .arrival-rule{opacity:.35;transform:scaleX(1)}
 @media(max-width:720px){.cinematic-hero>.arrival-cloud{height:90%;inset:6% -15% auto;mask-image:radial-gradient(ellipse,#000c 5%,#0007 35%,transparent 68%)}.cinematic-hero>.arrival-cloud-left{right:0}.cinematic-hero>.arrival-cloud-right{left:0}.story-stage>.arrival-cloud{inset:12% 0 10%}.author-scene>.arrival-cloud{left:0;right:0}.arrival-rule{left:7%;right:7%}}
 @media(prefers-reduced-motion:reduce){.arrival-cloud,.arrival-glint{display:none}.arrival-rule{opacity:.35;transform:scaleX(1)}}
+.contact{--closing-depth:.5;isolation:isolate;overflow:clip}
+.closing-atmosphere{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;mask-image:linear-gradient(transparent,#000 28%,#000 78%,transparent)}
+.closing-cloud{position:absolute;inset:0 -12%;background:url('/assets/portal-atmosphere-900.webp') 65% 70%/cover;mask-image:radial-gradient(ellipse,#0009 15%,transparent 72%);border-radius:45%;pointer-events:none}
+.closing-cloud-far{opacity:.3;transform:translate3d(calc(12px - var(--closing-depth)*30px),calc(16px - var(--closing-depth)*32px),0) scale(1.08)}
+.closing-cloud-near{top:25%;bottom:-12%;opacity:.22;background-position:30% 85%;transform:translate3d(calc(-20px + var(--closing-depth)*40px),calc(var(--closing-depth)*-18px),0) scale(1.12)}
+.closing-light{position:absolute;inset:15% 0;background:radial-gradient(ellipse at 75% 60%,#e7bc6418,transparent 60%);opacity:calc(.4 + var(--closing-depth)*.4)}
+.motion-paused .closing-cloud{transform:none}
+@media(max-width:720px){.closing-cloud{inset:5% -5%;opacity:.2}.closing-cloud-near{top:40%;opacity:.16}}
+@media(prefers-reduced-motion:reduce){.closing-cloud{transform:none}}
