@@ -37,12 +37,15 @@
   const tabs = [...tablist.querySelectorAll('button')];
   const panels = tabs.map((_, i) => document.getElementById(`theme-panel-${i}`));
   const invitations = [
-    'Begin by examining the times through Scripture.',
-    'Begin with biblical patterns and the days of Noah.',
-    'Begin with discernment grounded in faith.'
+    'Your starting point: biblical prophecy.',
+    'Your starting point: the days of Noah.',
+    'Your starting point: faith and discernment.'
   ];
   tablist.setAttribute('role', 'tablist');
-  tablist.setAttribute('aria-orientation', 'vertical');
+  const guideLayout = matchMedia('(max-width:720px)');
+  const syncGuideOrientation = () => tablist.setAttribute('aria-orientation', guideLayout.matches ? 'horizontal' : 'vertical');
+  syncGuideOrientation();
+  if (guideLayout.addEventListener) guideLayout.addEventListener('change', syncGuideOrientation);
   tabs.forEach((tab, i) => {
     tab.setAttribute('role', 'tab');
     tab.setAttribute('aria-controls', panels[i].id);
@@ -59,7 +62,7 @@
     guide.querySelector('.reader-invitation').textContent = invitations[index];
     if (focus) tabs[index].focus();
     document.dispatchEvent(new CustomEvent('bookthemechange', { detail: { index } }));
-    if (withMotion) animate(panels[index], [{ opacity: .55, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 220, easing: 'ease-out' });
+    if (withMotion) animate(panels[index], [{ opacity: .65, transform: 'perspective(1000px) rotateY(-4deg) translateX(8px)' }, { opacity: 1, transform: 'perspective(1000px) rotateY(0) translateX(0)' }], { duration: 350, easing: 'cubic-bezier(.22,.68,.2,1)' });
   }
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => selectTheme(index));

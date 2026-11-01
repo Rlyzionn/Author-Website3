@@ -136,7 +136,7 @@
     themeButton.hidden = false;
     themeButton.addEventListener('click', () => {
       const selected = document.querySelector('.theme-nav [aria-selected=true]');
-      const topic = ['perspective beyond the headlines', 'prophecy and the days of Noah', 'spiritual discernment and steadier faith'][Number(selected?.dataset.theme || 0)];
+      const topic = ['biblical prophecy and understanding the times', 'the days of Noah and biblical patterns', 'faith and spiritual discernment'][Number(selected?.dataset.theme || 0)];
       openChat();
       input.value = `How does the book explore ${topic}?`;
       input.focus();
