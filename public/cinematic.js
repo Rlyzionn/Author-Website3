@@ -6,13 +6,15 @@
     const portal = document.querySelector('.portal-scene');
     const story = document.querySelector('.scroll-story');
     const stage = story && story.querySelector('.story-stage');
+    const bookDetail = document.querySelector('.book-reading');
+    const audioScene = document.querySelector('.audio-visual');
     const beats = story ? [...story.querySelectorAll('.story-beat[data-beat]')] : [];
     const visuals = story ? [...story.querySelectorAll('.story-visual[data-beat]')] : [];
     const toggle = document.querySelector('.motion-toggle');
     const preference = typeof window.matchMedia === 'function'
       ? window.matchMedia('(prefers-reduced-motion: reduce)')
       : { matches: false };
-    const scenes = [portal, story].filter(Boolean);
+    const scenes = [portal, story, bookDetail, audioScene].filter(Boolean);
     const nearbyScenes = new Set();
     let userPaused = false;
     let sleeping = document.hidden;
@@ -71,14 +73,20 @@
         '--hero-turn': '-18deg',
         '--hero-lift': '0px',
         '--hero-cloud-y': '0px',
+        '--depth-progress': '.5',
         '--light-strength': '.85'
       });
       setVariables(story, {
         '--journey': '.5',
+        '--depth-progress': '.5',
         '--book-turn': '-8deg',
         '--book-lift': '0px',
         '--light-strength': '1'
       });
+      setVariables(bookDetail, { '--detail-depth': '.5' });
+      setVariables(audioScene, { '--audio-depth': '.5' });
+      if (bookDetail) bookDetail.dataset.depthProgress = '.5';
+      if (audioScene) audioScene.dataset.depthProgress = '.5';
       const state = preference.matches ? 'reduced' : 'paused';
       scenes.forEach(scene => { scene.dataset.motionState = state; });
       setActiveBeat(selected);
@@ -97,6 +105,8 @@
       // inherited custom-property updates with repeated layout measurements.
       const portalRect = portal && (force || nearbyScenes.has(portal)) ? portal.getBoundingClientRect() : null;
       const storyRect = story && (force || nearbyScenes.has(story)) ? story.getBoundingClientRect() : null;
+      const detailRect = bookDetail && (force || nearbyScenes.has(bookDetail)) ? bookDetail.getBoundingClientRect() : null;
+      const audioRect = audioScene && (force || nearbyScenes.has(audioScene)) ? audioScene.getBoundingClientRect() : null;
       const selected = storyRect ? findActiveBeat(viewportHeight) : null;
 
       if (portalRect) {
@@ -106,6 +116,7 @@
           '--hero-turn': `${(-18 + movement * 10).toFixed(2)}deg`,
           '--hero-lift': `${(-18 * movement).toFixed(2)}px`,
           '--hero-cloud-y': `${(48 * movement).toFixed(2)}px`,
+          '--depth-progress': movement.toFixed(4),
           '--light-strength': (.7 + movement * .25).toFixed(3)
         });
         portal.dataset.motionState = nearbyScenes.has(portal) ? 'running' : 'idle';
@@ -116,12 +127,20 @@
         const movement = ease(progress);
         setVariables(story, {
           '--journey': progress.toFixed(4),
+          '--depth-progress': movement.toFixed(4),
           '--book-turn': `${(-35 + movement * 65).toFixed(2)}deg`,
           '--book-lift': `${(18 - movement * 36).toFixed(2)}px`,
           '--light-strength': (.32 + movement * .68).toFixed(3)
         });
         setActiveBeat(selected);
         story.dataset.motionState = nearbyScenes.has(story) ? 'running' : 'idle';
+      }
+      for (const [element, rect, property] of [[bookDetail, detailRect, '--detail-depth'], [audioScene, audioRect, '--audio-depth']]) {
+        if (!rect) continue;
+        const progress = ease(clamp((viewportHeight * .9 - rect.top) / (viewportHeight * .7 + Math.min(rect.height, viewportHeight) * .4)));
+        setVariables(element, { [property]: progress.toFixed(4) });
+        element.dataset.depthProgress = progress.toFixed(4);
+        element.dataset.motionState = nearbyScenes.has(element) ? 'running' : 'idle';
       }
     }
 
@@ -209,6 +228,7 @@
     if (preference.addEventListener) preference.addEventListener('change', updateMotionState);
     else if (preference.addListener) preference.addListener(updateMotionState);
 
+    root.classList.add('depth-ready');
     updateMotionState();
   }
 
