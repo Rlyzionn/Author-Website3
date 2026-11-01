@@ -28,9 +28,17 @@ Open the loopback URL printed by the development server. Run `npm run build` to 
 
 ## Configuration
 
+### Vercel deployment
+
+Import this repository into Vercel. The tracked `vercel.json` selects the Other preset, builds the same landing page and public assets into `vercel-dist`, and exposes the existing reading-companion backend through `api/chat.mjs`. This deployment requires no package installation. The existing Sites/Cloudflare build remains available separately.
+
+Set `OPENROUTER_API_KEY` as a sensitive server-side Vercel environment variable for Production (and Preview if needed), and optionally set `CHAT_MODEL`. Redeploy after changing environment variables. Never place the API key in a `NEXT_PUBLIC_*` variable or commit it. Newsletter signup continues to use Gabriel's existing Kit form destination.
+
+Run `node scripts/build-vercel.mjs` to check the static build locally. With Vercel CLI signed in, run `vercel --prod` to publish. `.vercel/` and `vercel-dist/` are ignored by Git.
+
 The book companion uses `OPENROUTER_API_KEY` and optional `CHAT_MODEL` as server-side environment values. See `.env.example`; configure real values through your hosting platform's secret settings. Credentials are not included in this repository. The current hosted site's environment remains separate from GitHub.
 
-Dependencies, generated builds, local environment files, tool state and publication archives are excluded by `.gitignore`. The source includes the existing Sites hosting manifest. Pushing this repository does not itself deploy the site or configure GitHub Pages.
+Dependencies, generated builds, local environment files, tool state and publication archives are excluded by `.gitignore`. The source includes the existing Sites hosting manifest. Sites publication remains separate from the connected Vercel deployment. GitHub Pages is not configured.
 
 ---
 

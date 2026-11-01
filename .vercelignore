@@ -1,0 +1,14 @@
+node_modules
+dist
+.next
+.vinext
+.wrangler
+.sites-runtime
+.agents
+.codex
+outputs
+work
+vercel-dist
+.env*
+.dev.vars*
+*.pem

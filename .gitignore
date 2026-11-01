@@ -35,6 +35,8 @@ yarn-error.log*
 # Checkout-local tool state
 /.wrangler/
 /.sites-runtime/
+/.vercel/
+/vercel-dist/
 
 # Workspace scaffolding and publication archives
 /.agents/
