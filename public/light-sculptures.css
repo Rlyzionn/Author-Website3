@@ -1,0 +1,37 @@
+/* Original CSS sculptures: gilded light, unfolding folios and sound depth.
+   Each shares the existing scroll timeline. No perpetual animation or new runtime. */
+.light-sculpture{position:absolute;inset:0 0 48px;pointer-events:none;transform-style:preserve-3d;perspective:1100px;z-index:1}
+.light-orbit{position:absolute;width:91%;aspect-ratio:1;left:4.5%;top:3%;border:1px solid #e4ba6c80;border-radius:50%;transform-style:preserve-3d;box-shadow:inset 0 0 24px #dfb16509,0 0 28px #dfb16509}
+.light-orbit:after{content:'';position:absolute;width:8px;height:8px;top:14%;left:14%;background:#f7d693;border-radius:50%;box-shadow:0 0 14px #f3c065,0 0 35px #e3ad5160}
+.orbit-one{transform:translateZ(-60px) rotateX(24deg) rotateY(calc(-30deg + var(--depth-progress)*65deg)) rotateZ(calc(-18deg + var(--depth-progress)*50deg));border-top-color:#fbe2a7}
+.orbit-two{transform:translateZ(-30px) rotateX(calc(64deg - var(--depth-progress)*30deg)) rotateY(-25deg) rotateZ(calc(30deg - var(--depth-progress)*100deg));border-color:#b7cad93b;border-right-color:#e7be6ca0}
+.orbit-three{inset:10% 12% auto;width:76%;transform:translateZ(-80px) rotateX(calc(-25deg + var(--depth-progress)*45deg)) rotateY(calc(68deg - var(--depth-progress)*25deg));border-color:#e4ba6c40}
+.orbit-three:after{width:5px;height:5px;left:80%;top:10%}
+.light-pedestal{position:absolute;bottom:8%;left:12%;width:76%;height:19%;border:1px solid #e8bb6b65;border-radius:50%;background:radial-gradient(ellipse,#edbb5630,transparent 65%);transform:rotateX(68deg) scale(calc(.85 + var(--depth-progress)*.12));box-shadow:0 0 55px #e4b35e13,inset 0 0 20px #e6ba6818}
+.light-spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#f4d69d;box-shadow:0 0 12px #f3c572;opacity:.8}
+.spark-one{left:8%;top:32%;transform:translate3d(calc(var(--depth-progress)*26px),calc(var(--depth-progress)*-90px),40px)}
+.spark-two{right:12%;top:65%;transform:translate3d(calc(var(--depth-progress)*-30px),calc(var(--depth-progress)*-120px),70px)}
+.spark-three{left:42%;top:5%;transform:translate3d(calc(var(--depth-progress)*50px),calc(var(--depth-progress)*80px),0)}
+.portal-scene:before{opacity:.15}
+.story-folios{position:absolute;inset:0;perspective:1000px;pointer-events:none;transform-style:preserve-3d;z-index:1}
+.floating-folio{position:absolute;width:80px;height:112px;transform-style:preserve-3d}
+.floating-folio i{position:absolute;inset:0;background:url('/assets/paper-leaf.svg') center/100% 100%;border:1px solid #f0d39150;border-radius:3px 10px 10px 3px;transform-origin:left center;box-shadow:5px 10px 16px #0005;backface-visibility:hidden}
+.floating-folio i:nth-child(1){transform:translateZ(-8px) rotateY(-8deg)}
+.floating-folio i:nth-child(2){transform:translateZ(0) rotateY(calc(-15deg - var(--depth-progress)*45deg))}
+.floating-folio i:nth-child(3){transform:translateZ(8px) rotateY(calc(-25deg - var(--depth-progress)*80deg));background:linear-gradient(135deg,#eac47730,transparent),url('/assets/paper-leaf.svg') center/100% 100%}
+.folio-left{left:0;top:18%;transform:translate3d(calc(-12px + var(--depth-progress)*30px),calc(45px - var(--depth-progress)*110px),35px) rotateX(15deg) rotateY(calc(25deg + var(--depth-progress)*30deg)) rotateZ(calc(-18deg + var(--depth-progress)*20deg))}
+.folio-right{right:0;top:54%;width:63px;height:89px;transform:translate3d(calc(8px - var(--depth-progress)*25px),calc(-32px + var(--depth-progress)*80px),-15px) rotateX(-12deg) rotateY(calc(-22deg - var(--depth-progress)*28deg)) rotateZ(calc(15deg - var(--depth-progress)*30deg))}
+.folio-thread{position:absolute;inset:11% 0 18%;border:1px solid #d8b36a28;border-top-color:#d8b36a60;border-radius:50%;transform:rotateX(22deg) rotateY(calc(-35deg + var(--depth-progress)*65deg)) rotateZ(-24deg)}
+.sound-sculpture{position:absolute;inset:0;pointer-events:none;perspective:1000px;transform-style:preserve-3d;z-index:0}
+.sound-sculpture i{position:absolute;width:235px;height:235px;left:50%;top:50%;margin:-117.5px;border:1px solid #d9b96f38;border-radius:50%;transform:translate3d(0,0,-60px) rotateY(calc(-36deg + var(--audio-depth)*60deg)) scale(calc(.92 + var(--audio-depth)*.28))}
+.sound-sculpture i:nth-child(2){border-color:#d9b96f25;transform:translate3d(0,0,-80px) rotateY(calc(-36deg + var(--audio-depth)*60deg)) scale(calc(1.1 + var(--audio-depth)*.32))}
+.sound-sculpture i:nth-child(3){border-color:#b7cbdd20;transform:translate3d(0,0,-100px) rotateY(calc(-36deg + var(--audio-depth)*60deg)) scale(calc(1.3 + var(--audio-depth)*.36))}
+.audio-artwork{isolation:isolate}.audio-visual{overflow:hidden}.audio-record,.audio-cover{z-index:1}
+@media(min-width:721px){.depth-ready .light-sculpture{animation:light-arrival 1100ms cubic-bezier(.2,.65,.25,1) both}@keyframes light-arrival{from{opacity:0;transform:scale(.88) rotateZ(-8deg)}to{opacity:1;transform:none}}}
+@media(max-width:900px) and (min-width:721px){.floating-folio{width:58px;height:82px}.folio-right{width:46px;height:65px}}
+@media(max-width:720px){.light-sculpture{inset:5px 0 45px}.light-orbit{width:90%;left:5%;top:0}.light-pedestal{bottom:5%;height:18%}.floating-folio{width:45px;height:64px}.folio-left{left:13%;top:24%;transform:translate3d(0,calc(16px - var(--depth-progress)*35px),0) rotateY(28deg) rotateZ(-14deg)}.folio-right{right:13%;top:46%;width:35px;height:50px;transform:translate3d(0,calc(-15px + var(--depth-progress)*30px),0) rotateY(-25deg) rotateZ(14deg)}.folio-thread{inset:10% 11% 22%}.sound-sculpture i{width:180px;height:180px;margin:-90px}}
+.motion-paused .light-sculpture{animation:none}.motion-paused .light-orbit,.motion-paused .light-pedestal,.motion-paused .light-spark,.motion-paused .floating-folio,.motion-paused .floating-folio i,.motion-paused .folio-thread,.motion-paused .sound-sculpture i{transition:none}
+@media(max-width:720px){.depth-ready .story-book{transform:translate3d(0,calc(var(--book-lift)*.4 - 32px),0) rotateX(5deg) rotateY(var(--book-turn)) rotateZ(-4deg)}.story-visual{z-index:4}.motion-paused .story-book{transform:translateY(-32px) rotateY(-8deg) rotateZ(-4deg)}}
+@media(max-width:360px){.story-book{width:110px}.folio-left{left:10%}.folio-right{right:10%}}
+@media(prefers-reduced-motion:reduce){.depth-ready .light-sculpture{animation:none}.light-orbit,.light-pedestal,.light-spark,.floating-folio,.floating-folio i,.folio-thread,.sound-sculpture i{transition:none}}
+@media(max-width:720px) and (prefers-reduced-motion:reduce){.depth-ready .story-book{transform:translateY(-32px) rotateY(-13deg) rotateZ(-3deg)!important}}
