@@ -10,7 +10,7 @@
   const suggestions = dialog.querySelector('.chat-suggestions');
   const status = dialog.querySelector('.chat-status');
   const greeting = messages.innerHTML;
-  const allowedActions = new Set(['#audio', '#books', '#contact', '#about', '#free-chapter', '#reader-guide']);
+  const allowedActions = new Set(['#audio', '#books', '#contact', '#about', '#free-chapter', '#reader-guide', '#gabriel-pages']);
   let history = [];
   let pending = false;
   let activeController;
