@@ -58,6 +58,7 @@
     });
     guide.querySelector('.reader-invitation').textContent = invitations[index];
     if (focus) tabs[index].focus();
+    document.dispatchEvent(new CustomEvent('bookthemechange', { detail: { index } }));
     if (withMotion) animate(panels[index], [{ opacity: .55, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 220, easing: 'ease-out' });
   }
   tabs.forEach((tab, index) => {
