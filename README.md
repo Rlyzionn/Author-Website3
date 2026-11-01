@@ -1,4 +1,40 @@
-# vinext-starter
+# Gabriel Pollard Author Website
+
+Source for Gabriel Pollard's author website, centered on *Hidden In Broad Daylight: Buried Treasures*.
+
+[Live website](https://gabriel-pollard-author-books.shaikh-mashhood-rahm.chatgpt.site/)
+
+## Run locally
+
+Use Node.js 22.13 or later, then run:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open the loopback URL printed by the development server. Run `npm run build` to create the production Worker and static assets; `npm start` previews the built application locally.
+
+## Source map
+
+- `content/site.html`: page content and semantic markup.
+- `public/`: styles, browser scripts, book and author artwork, local fonts and font licenses.
+- `public/cinematic.js`: scroll scene coordination, pause and reduced-motion behavior.
+- `public/discovery.js`: cloud entrances and reading interactions.
+- `public/reading-guide.css`: interactive book-theme guide.
+- `app/`: Vinext routes and page metadata.
+- `worker/index.ts` and `lib/reading-guide.mjs`: server-side book companion endpoint.
+- `scripts/`: build and local runtime helpers.
+
+## Configuration
+
+The book companion uses `OPENROUTER_API_KEY` and optional `CHAT_MODEL` as server-side environment values. See `.env.example`; configure real values through your hosting platform's secret settings. Credentials are not included in this repository. The current hosted site's environment remains separate from GitHub.
+
+Dependencies, generated builds, local environment files, tool state and publication archives are excluded by `.gitignore`. The source includes the existing Sites hosting manifest. Pushing this repository does not itself deploy the site or configure GitHub Pages.
+
+---
+
+## Framework and hosting reference
 
 A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
 
