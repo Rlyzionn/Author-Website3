@@ -42,6 +42,110 @@
       return layer;
     }
 
+    // Each visual anchor has one entrance. Body text and controls never wait.
+    const entranceObservers = [];
+    const entrancePending = new Map();
+    function onEntrance(anchor, run) {
+      if (!anchor) return;
+      let entered = false;
+      let observer;
+      const enter = () => {
+        if (entered || document.hidden) return;
+        entered = true;
+        entrancePending.delete(anchor);
+        anchor.dataset.chapterArrival = paused() ? 'static' : 'revealed';
+        if (!paused()) run();
+      };
+      entrancePending.set(anchor, enter);
+      if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) enter();
+          else if (entered) cancelWhere(element => anchor.contains(element));
+        }), { threshold: .08 });
+        observer.observe(anchor);
+        entranceObservers.push(observer);
+      } else {
+        anchor.dataset.chapterArrival = 'static';
+        entrancePending.delete(anchor);
+      }
+    }
+    const entranceEase = 'cubic-bezier(.22,.68,.2,1)';
+    function partClouds(anchor, duration, hero = false) {
+      if (!anchor) return;
+      anchor.classList.add('arrival-surface');
+      const left = decoration('arrival-cloud arrival-cloud-left');
+      const right = decoration('arrival-cloud arrival-cloud-right');
+      anchor.append(left, right);
+      onEntrance(anchor, () => {
+        const mobile = window.innerWidth <= 720;
+        const distance = hero ? (mobile ? 30 : 44) : 25;
+        const opacity = hero ? (mobile ? .62 : .84) : .42;
+        play(left, [
+          { opacity, transform: 'translate3d(0,0,0) scale(1.08)' },
+          { opacity: .35, offset: .42, transform: `translate3d(-${distance * .35}%, -3%, 0) scale(1.12)` },
+          { opacity: 0, transform: `translate3d(-${distance}%, -8%, 0) scale(1.18)` }
+        ], { duration, easing: entranceEase });
+        play(right, [
+          { opacity, transform: 'translate3d(0,0,0) scaleX(-1)' },
+          { opacity: .3, offset: .42, transform: `translate3d(${distance * .35}%, 2%, 0) scaleX(-1)` },
+          { opacity: 0, transform: `translate3d(${distance}%, 7%, 0) scaleX(-1)` }
+        ], { duration, easing: entranceEase });
+        if (hero) {
+          const cover = anchor.querySelector('.volume-front');
+          play(cover, [{ opacity: .45 }, { opacity: 1 }], { duration: 950, easing: entranceEase });
+          const light = anchor.querySelector('.cover-reveal-light');
+          play(light, [
+            { opacity: 0, transform: 'translateZ(19px) translateX(-60%)' },
+            { opacity: .65, offset: .4, transform: 'translateZ(19px) translateX(0)' },
+            { opacity: 0, transform: 'translateZ(19px) translateX(60%)' }
+          ], { duration: 1000, delay: 300, easing: entranceEase });
+        }
+      });
+    }
+    const heroEntrance = document.querySelector('.cinematic-hero');
+    const heroBook = document.querySelector('.portal-book');
+    if (heroBook) {
+      const shine = decoration('cover-reveal-light');
+      shine.style.setProperty('--cover-sweep', '0%');
+      shine.style.setProperty('--cover-shine', '1');
+      shine.style.opacity = '0';
+      heroBook.append(shine);
+    }
+    partClouds(heroEntrance, 1700, true);
+    partClouds(document.querySelector('.story-stage'), 1100);
+    partClouds(document.querySelector('.author-scene'), 1000);
+
+    function lightPass(anchor, duration) {
+      if (!anchor) return;
+      anchor.classList.add('arrival-surface');
+      const glint = decoration('arrival-glint');
+      anchor.append(glint);
+      onEntrance(anchor, () => play(glint, [
+        { opacity: 0, transform: 'translateX(-25%) scaleX(.5)' },
+        { opacity: .8, offset: .42, transform: 'translateX(0) scaleX(1)' },
+        { opacity: 0, transform: 'translateX(25%) scaleX(.5)' }
+      ], { duration, easing: entranceEase }));
+    }
+    lightPass(document.querySelector('.book-reading'), 850);
+    lightPass(document.querySelector('.video-link'), 750);
+    for (const selector of ['.chapter', '.faq', '.contact']) {
+      const section = document.querySelector(selector);
+      if (!section) continue;
+      section.classList.add('arrival-surface');
+      const rule = decoration('arrival-rule');
+      section.append(rule);
+      onEntrance(section, () => play(rule, [
+        { opacity: 0, transform: 'scaleX(.05)' },
+        { opacity: .9, offset: .65, transform: 'scaleX(.8)' },
+        { opacity: 0, transform: 'scaleX(1)' }
+      ], { duration: selector === '.chapter' ? 800 : 650, easing: entranceEase }));
+    }
+    const soundRings = document.querySelector('.sound-sculpture');
+    onEntrance(document.querySelector('.audio-artwork'), () => play(soundRings, [
+      { opacity: 0, transform: 'perspective(1000px) scale(.6) rotateY(-30deg)' },
+      { opacity: 1, transform: 'perspective(1000px) scale(1) rotateY(0)' }
+    ], { duration: 900, easing: entranceEase }));
+
     // A native disclosure opens an actual page of the book's existing contents.
     const contents = document.querySelector('#books details.synopsis');
     if (contents) {
@@ -76,6 +180,12 @@
       const initialTab = document.querySelector('#reader-guide [role="tab"][aria-selected="true"]');
       theme.dataset.discoveryTheme = initialTab ? initialTab.dataset.theme || '0' : '0';
       theme.dataset.discoveryState = 'settled';
+
+      onEntrance(theme, () => {
+        play(left, [{ opacity: .48, transform: 'translateX(15px)' }, { opacity: .12, transform: 'translateX(-18px)' }], { duration: 800, easing: entranceEase });
+        play(right, [{ opacity: .48, transform: 'translateX(-15px)' }, { opacity: .12, transform: 'translateX(18px)' }], { duration: 800, easing: entranceEase });
+        play(light, [{ opacity: .08, transform: 'scaleX(.5)' }, { opacity: .35, transform: 'scaleX(1.08)' }], { duration: 800, easing: entranceEase });
+      });
 
       document.addEventListener('bookthemechange', event => {
         const index = Number(event.detail && event.detail.index);
@@ -164,6 +274,10 @@
         const rect = form.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) openLetter();
       }
+      if (!document.hidden) entrancePending.forEach((enter, anchor) => {
+        const rect = anchor.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) enter();
+      });
     });
     window.addEventListener('pagehide', () => cancelWhere(() => true));
     settleMotion();

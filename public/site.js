@@ -123,22 +123,9 @@
     input.addEventListener('input', () => { if (input.validity.valid) { input.removeAttribute('aria-invalid'); error.textContent = ''; } });
   });
 
-  // The action stays visible. Only the message and real book settle into place.
-  document.querySelectorAll('#hero-title>span').forEach((line, i) => {
-    animate(line, [{ opacity: .4, transform: 'translateY(18px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 600, delay: i * 70, easing: 'cubic-bezier(.2,.7,.2,1)' });
-  });
+  // Decorative chapter entrances live in discovery.js. Text stays steady.
   function resetBook() {}
 
-  let revealObserver;
-  if ('IntersectionObserver' in window) {
-    revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const delay = entry.target.matches('.news-grid>article') && entry.target.previousElementSibling ? 90 : 0;
-      animate(entry.target, [{ opacity: .68, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 680, delay, easing: 'cubic-bezier(.22,.68,.2,1)' });
-      revealObserver.unobserve(entry.target);
-    }), { threshold: .12 });
-    document.querySelectorAll('.cover-stage,.split-heading,.portrait,.about blockquote,.chapter>div,.chapter form,.audio-copy h2,.audio-visual,.news-grid>article,.closing h2').forEach(el => revealObserver.observe(el));
-  }
 
   // Decorative waveform: no audio is played here. It rests outside the viewport.
   const soundscape = document.querySelector('.audio-visual');

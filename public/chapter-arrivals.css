@@ -1,0 +1,18 @@
+/* Decorative chapter entrances. The complete page is visible without this JS. */
+.arrival-surface{position:relative;isolation:isolate}
+.arrival-cloud{position:absolute;inset:-8% -12%;pointer-events:none;z-index:6;opacity:0;background:url('/assets/portal-atmosphere-900.webp') 46% 74%/cover;mask-image:radial-gradient(ellipse at 45% 50%,#000 15%,#000c 42%,transparent 72%);border-radius:45%;contain:paint}
+.arrival-cloud-right{background-position:84% 66%;transform:scaleX(-1)}
+.cinematic-hero>.arrival-cloud{inset:-5% -25%;height:115%;z-index:6;mask-image:radial-gradient(ellipse at 48% 50%,#000 15%,#000c 40%,transparent 69%)}
+.cinematic-hero>.arrival-cloud-left{right:5%;background-position:25% 62%}
+.cinematic-hero>.arrival-cloud-right{left:12%;background-position:80% 60%}
+.story-stage>.arrival-cloud{inset:12% -10% 8%;z-index:5}
+.author-scene>.arrival-cloud{inset:48% -8% -2%;z-index:3;background-position:70% 88%;mask-image:radial-gradient(ellipse,#000a,transparent 72%)}
+.cover-reveal-light{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:7;transform:translateZ(19px);overflow:hidden}
+.cover-reveal-light:before{content:'';position:absolute;inset:-15% -65%;background:linear-gradient(115deg,transparent 35%,#fff0cc00 42%,#fff0cc7a 50%,#fff0cc00 58%,transparent 65%);transform:translateX(var(--cover-sweep,-110%));opacity:var(--cover-shine,0)}
+.arrival-glint{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:3;border-radius:inherit;background:linear-gradient(115deg,transparent 20%,#f9d28b20 47%,#ffe6ac3b 50%,transparent 74%);overflow:hidden}
+.book-reading>.arrival-glint{inset:0;border-radius:30px}
+.arrival-rule{position:absolute;top:25px;left:8%;right:8%;height:1px;pointer-events:none;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,transparent,#e9c47c,#e9c47c30,transparent);opacity:0}
+.chapter>.arrival-rule{top:17px;left:5%;right:5%}.contact>.arrival-rule{top:35px}.faq>.arrival-rule{top:30px}
+.motion-paused .arrival-cloud,.motion-paused .arrival-glint{opacity:0!important}.motion-paused .arrival-rule{opacity:.35;transform:scaleX(1)}
+@media(max-width:720px){.cinematic-hero>.arrival-cloud{height:90%;inset:6% -15% auto;mask-image:radial-gradient(ellipse,#000c 5%,#0007 35%,transparent 68%)}.cinematic-hero>.arrival-cloud-left{right:0}.cinematic-hero>.arrival-cloud-right{left:0}.story-stage>.arrival-cloud{inset:12% 0 10%}.author-scene>.arrival-cloud{left:0;right:0}.arrival-rule{left:7%;right:7%}}
+@media(prefers-reduced-motion:reduce){.arrival-cloud,.arrival-glint{display:none}.arrival-rule{opacity:.35;transform:scaleX(1)}}
